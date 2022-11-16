@@ -21,7 +21,7 @@ public class BATest {
 //        when create one card
         ArrayList<Story> newestStoryList = baOne.createStoryCard(newCardTitle, initStorys); // the story list should get from team props, but too complex.
 //        then
-        assertAll("team has all props", () -> {
+        assertAll("shouldCreateStoryCardToList", () -> {
             assertEquals(1, newestStoryList.size());
             assertEquals("newCardTitle", newestStoryList.get(0).getTitle());
             assertEquals(StoryStatus.READY, newestStoryList.get(0).getStoryStatus());
@@ -39,7 +39,7 @@ public class BATest {
 //        when create one card
         ArrayList<Story> newestStoryList = baOne.createStoryCard(newCards, initStorys); // the story list should get from team props, but too complex.
 //        then
-        assertAll("team has all props", () -> {
+        assertAll("shouldCreateMultipleStoryCardToList", () -> {
             assertEquals(2, newestStoryList.size());
             assertEquals("newCardTitle", newestStoryList.get(0).getTitle());
             assertEquals("newCardTitleTwo", newestStoryList.get(1).getTitle());
@@ -60,7 +60,7 @@ public class BATest {
 //        when create one card
         ArrayList<Story> newestStoryList = baOne.createStoryCard(newCards, initStorys); // the story list should get from team props, but too complex.
 //        then
-        assertAll("team has all props", () -> {
+        assertAll("shouldNotCreateMoreThanThreeStoryCardAtOnceToList", () -> {
             assertEquals(3, newestStoryList.size());
             assertEquals("newCardTitle", newestStoryList.get(0).getTitle());
             assertEquals("newCardTitleTwo", newestStoryList.get(1).getTitle());
