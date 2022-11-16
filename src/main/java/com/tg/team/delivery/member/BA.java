@@ -29,10 +29,12 @@ public class BA {
     }
 
     public ArrayList<Story> createStoryCard(List<String> newCards, ArrayList<Story> initStorys) {
-        newCards.forEach(card -> {
-            Story story = new Story(card, StoryStatus.READY);
-            initStorys.add(story);
-        });
+        newCards.stream()
+                .filter(card -> newCards.indexOf(card) <= 2)
+                .forEach(card -> {
+                    Story story = new Story(card, StoryStatus.READY);
+                    initStorys.add(story);
+                });
         return initStorys;
     }
 }
