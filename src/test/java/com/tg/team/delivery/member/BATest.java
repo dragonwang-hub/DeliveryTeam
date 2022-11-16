@@ -67,4 +67,24 @@ public class BATest {
             assertEquals(StoryStatus.READY, newestStoryList.get(0).getStoryStatus());
         });
     }
+    @Test
+    public void shouldAssignStoryCardAToDev() {
+//        given ba and story requirement and dev
+        BA baOne = new BA("baOne");
+        DEV devOne = new DEV("devOne", DEVStatus.FREE);
+        String newCardTitle = "newCardTitle";
+
+        ArrayList<Story> initStorys = new ArrayList<>();
+        initStorys.add(new Story("newCardTitle", StoryStatus.READY));
+        initStorys.add(new Story("doneCardTitleTwo", StoryStatus.TEST));
+        initStorys.add(new Story("doneCardTitleThree", StoryStatus.TEST));
+//        when create one card
+        ArrayList<Story> newestStoryList = baOne.assignStoryCard(devOne, newCardTitle, initStorys); // the story list should get from team props, but too complex.
+//        then
+        assertAll("shouldAssignStoryCardAToDev", () -> {
+            assertEquals(3, newestStoryList.size());
+            assertEquals("newCardTitle", newestStoryList.get(0).getTitle());
+            assertEquals(StoryStatus.DEVELOP, newestStoryList.get(0).getStoryStatus());
+        });
+    }
 }
