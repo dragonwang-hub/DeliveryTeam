@@ -9,6 +9,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class BATest {
 
@@ -67,6 +68,7 @@ public class BATest {
             assertEquals(StoryStatus.READY, newestStoryList.get(0).getStoryStatus());
         });
     }
+
     @Test
     public void shouldAssignStoryCardAToDev() {
 //        given ba and story requirement and dev
@@ -86,5 +88,23 @@ public class BATest {
             assertEquals("newCardTitle", newestStoryList.get(0).getTitle());
             assertEquals(StoryStatus.DEVELOP, newestStoryList.get(0).getStoryStatus());
         });
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenAssignStoryCardAToDevButDevIsBusy() {
+//        given ba and story requirement and busy dev
+        BA baOne = new BA("baOne");
+        DEV devOne = new DEV("devOne", DEVStatus.BUSY);
+        String newCardTitle = "newCardTitle";
+
+        ArrayList<Story> initStorys = new ArrayList<>();
+        initStorys.add(new Story("newCardTitle", StoryStatus.READY));
+        initStorys.add(new Story("doneCardTitleTwo", StoryStatus.TEST));
+        initStorys.add(new Story("doneCardTitleThree", StoryStatus.TEST));
+//        when create one card
+//        then throw exception
+        assertThrows(RuntimeException.class, () -> {
+            baOne.assignStoryCard(devOne, newCardTitle, initStorys);
+        }, "DEV is busy now, please pick other one.");
     }
 }

@@ -37,6 +37,9 @@ public class BA {
     }
 
     public ArrayList<Story> assignStoryCard(DEV devOne, String newCardTitle, ArrayList<Story> initStorys) {
+        if(devOne.devStatus.equals(DEVStatus.BUSY)){
+            throw new RuntimeException("DEV is busy now, please pick other one.");
+        }
         initStorys.forEach(card -> {
             if (card.getTitle().equals(newCardTitle)) {
                 devOne.setStory(card);
