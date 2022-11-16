@@ -1,5 +1,10 @@
 package com.tg.team.delivery.member;
 
+import com.tg.team.delivery.story.Story;
+import com.tg.team.delivery.story.StoryStatus;
+
+import java.util.ArrayList;
+
 public class BA {
 
     String name;
@@ -14,5 +19,11 @@ public class BA {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public ArrayList<Story> createStoryCard(String newCardTitle, ArrayList<Story> initStorys) {
+        Story story = new Story(newCardTitle, StoryStatus.READY);
+        initStorys.add(story);
+        return initStorys;
     }
 }
