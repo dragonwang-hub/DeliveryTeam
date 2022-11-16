@@ -3,6 +3,7 @@ package com.tg.team.delivery.member;
 import com.tg.team.delivery.story.Story;
 import com.tg.team.delivery.story.StoryStatus;
 
+import java.util.*;
 import java.util.ArrayList;
 
 public class BA {
@@ -24,6 +25,14 @@ public class BA {
     public ArrayList<Story> createStoryCard(String newCardTitle, ArrayList<Story> initStorys) {
         Story story = new Story(newCardTitle, StoryStatus.READY);
         initStorys.add(story);
+        return initStorys;
+    }
+
+    public ArrayList<Story> createStoryCard(List<String> newCards, ArrayList<Story> initStorys) {
+        newCards.forEach(card -> {
+            Story story = new Story(card, StoryStatus.READY);
+            initStorys.add(story);
+        });
         return initStorys;
     }
 }
