@@ -107,4 +107,31 @@ public class BATest {
             baOne.assignStoryCard(devOne, newCardTitle, initStorys);
         }, "DEV is busy now, please pick other one.");
     }
+
+    @Test
+    public void shouldAssignMultipleReadyCardsToAllFreeDevsWhenBAArrangeWork() {
+//        given ba and ready and all dev for one card
+        BA baOne = new BA("baOne");
+        ArrayList<DEV> allDEVs = new ArrayList<>();
+        allDEVs.add(new DEV("devOne", DEVStatus.BUSY));
+        allDEVs.add(new DEV("devTwo", DEVStatus.FREE));
+        allDEVs.add(new DEV("devThree", DEVStatus.FREE));
+
+        List<String> cardsNeedToBeDeveloped = List.of("newCardTitle", "newCardTitleTwo", "newCardTitleThree");
+
+        ArrayList<Story> initStorys = new ArrayList<>();
+        initStorys.add(new Story("newCardTitle", StoryStatus.READY));
+        initStorys.add(new Story("newCardTitleTwo", StoryStatus.READY));
+        initStorys.add(new Story("newCardTitleThree", StoryStatus.READY));
+//        when assign card to all devs
+        ArrayList<Story> newestStoryList = baOne.assignCardToAllFreeDev(allDEVs, cardsNeedToBeDeveloped, initStorys);
+
+//        then two card status will change as DEVELOP
+        assertAll("shouldAssignMultipleReadyCardsToAllFreeDevsWhenBAArrangeWork", () -> {
+            assertEquals(3, newestStoryList.size());
+            assertEquals(StoryStatus.DEVELOP, newestStoryList.get(0).getStoryStatus());
+            assertEquals(StoryStatus.DEVELOP, newestStoryList.get(1).getStoryStatus());
+            assertEquals(StoryStatus.READY, newestStoryList.get(2).getStoryStatus());
+        });
+    }
 }
