@@ -70,4 +70,8 @@ public class Team {
         });
         return result;
     }
+
+    public void add(Member newMember) {
+        members.add(newMember);
+    }
 }

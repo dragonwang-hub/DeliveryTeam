@@ -70,4 +70,26 @@ public class TeamTest {
         });
 
     }
+
+    @Test
+    public void shouldReturnTwoBAsWhenAddSecondBAsToTeam() {
+//        given BAFilter, Team(Members)
+        Member baOne = new BA("baOne");
+        Member baTwo = new BA("baTwo");
+        ArrayList<Member> members = new ArrayList<>();
+        members.add(baOne);
+        Team team = new Team(members);
+
+        MemberFilter nameFilter = member -> member.getName().contains("a");
+//        when add ba to team(only one BA now)
+        team.add(baTwo);
+//        return only all BA
+        assertAll("shouldReturnTwoBAsWhenAddSecondBAsToTeam", () -> {
+            ArrayList<Member> result = team.getMembers(member -> member instanceof BA);
+            assertEquals(2, result.size());
+            assertEquals("baOne", result.get(0).getName());
+            assertEquals("baTwo", result.get(1).getName());
+        });
+
+    }
 }
