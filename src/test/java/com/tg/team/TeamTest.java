@@ -116,4 +116,45 @@ public class TeamTest {
         });
 
     }
+
+    @Test
+    public void shouldThrowExceptionWhenAddSecondQAToTeam() {
+        Member qaOne = new QA("qaOne");
+        Member qaTwo = new QA("qaTwo");
+        ArrayList<Member> members = new ArrayList<>();
+        members.add(qaOne);
+        Team team = new Team(members);
+
+        assertThrows(MemberRoleExceedException.class, () -> team.add(qaTwo), "This role already exceed number.");
+        assertAll("shouldThrowExceptionWhenAddSecondQAToTeam", () -> {
+            ArrayList<Member> result = team.getMembers(member -> member instanceof QA);
+            assertEquals(1, result.size());
+            assertEquals("QaOne", result.get(0).getName());
+        });
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenAddFourthDEVToTeam() {
+        Member qaOne = new QA("qaOne");
+        Member baOne = new BA("baOne");
+
+        Member devOne = new DEV("devOne");
+        Member devTwo = new DEV("devTwo");
+        Member devThr = new DEV("devThr");
+        Member devFour = new DEV("devFour");
+        ArrayList<Member> members = new ArrayList<>();
+        members.add(baOne);
+        members.add(qaOne);
+        members.add(devOne);
+        members.add(devTwo);
+        members.add(devThr);
+        Team team = new Team(members);
+
+        assertThrows(MemberRoleExceedException.class, () -> team.add(devFour), "This role already exceed number.");
+        assertAll("shouldThrowExceptionWhenAddFourthDEVToTeam", () -> {
+            ArrayList<Member> result = team.getMembers(member -> member instanceof DEV);
+            assertEquals(3, result.size());
+            assertEquals("devOne", result.get(0).getName());
+        });
+    }
 }

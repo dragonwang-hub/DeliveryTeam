@@ -12,7 +12,6 @@ import com.tg.team.delivery.story.Story;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Predicate;
 
 public class Team {
     ArrayList<BA> BAs;
