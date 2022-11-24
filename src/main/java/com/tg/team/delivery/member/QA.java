@@ -7,9 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class QA {
-
-    String name;
+public class QA extends Member {
 
     public QA(String name) {
         this.name = name;

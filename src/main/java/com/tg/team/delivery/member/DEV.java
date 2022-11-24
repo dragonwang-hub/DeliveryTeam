@@ -2,9 +2,8 @@ package com.tg.team.delivery.member;
 
 import com.tg.team.delivery.story.Story;
 
-public class DEV {
+public class DEV extends Member {
 
-    String name;
     DEVStatus devStatus;
 
     public DEV(String name, DEVStatus devStatus, Story story) {

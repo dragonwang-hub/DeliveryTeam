@@ -9,12 +9,10 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class BA {
-
-    String name;
+public class BA extends Member {
 
     public BA(String name) {
-        this.name = name;
+        super(name);
     }
 
     public String getName() {
