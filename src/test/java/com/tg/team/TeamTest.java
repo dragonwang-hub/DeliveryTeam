@@ -42,4 +42,32 @@ public class TeamTest {
         });
 
     }
+
+    @Test
+    public void shouldReturnAllMemberThatNameIncludeSpecifyCharacterWhenGivenCharacterFilter() {
+//        given BAFilter, Team(Members)
+        Member baOne = new BA("baOne");
+        Member baTwo = new BA("baTwo");
+        Member qaOne = new QA("qaOne");
+        Member devOne = new DEV("devOne");
+        ArrayList<Member> members = new ArrayList<>();
+        members.add(baOne);
+        members.add(qaOne);
+        members.add(devOne);
+        members.add(baTwo);
+        Team team = new Team(members);
+
+        MemberFilter nameFilter = member -> member.getName().contains("a");
+//        when execute team.getMembers(nameFilter)
+
+        ArrayList<Member> result = team.getMembers(nameFilter);
+//        return only all BA
+        assertAll("shouldReturnAllMemberThatNameIncludeSpecifyCharacterWhenGivenCharacterFilter", () -> {
+            assertEquals(3, result.size());
+            assertEquals("baOne", ((BA) result.get(0)).getName());
+            assertEquals("qaOne", ((QA) result.get(1)).getName());
+            assertEquals("baTwo", ((BA) result.get(2)).getName());
+        });
+
+    }
 }
