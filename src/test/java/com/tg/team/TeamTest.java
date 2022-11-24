@@ -80,7 +80,6 @@ public class TeamTest {
         members.add(baOne);
         Team team = new Team(members);
 
-        MemberFilter nameFilter = member -> member.getName().contains("a");
 //        when add ba to team(only one BA now)
         team.add(baTwo);
 //        return only all BA
