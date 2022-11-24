@@ -129,7 +129,7 @@ public class TeamTest {
         assertAll("shouldThrowExceptionWhenAddSecondQAToTeam", () -> {
             ArrayList<Member> result = team.getMembers(member -> member instanceof QA);
             assertEquals(1, result.size());
-            assertEquals("QaOne", result.get(0).getName());
+            assertEquals("qaOne", result.get(0).getName());
         });
     }
 

@@ -76,18 +76,20 @@ public class Team {
     }
 
     MemberNumberRule memberNumberRule = (members, numberLimit) -> {
-        if (members.size() == numberLimit) {
+        if (members.size() >= numberLimit) { // == only
             throw new MemberRoleExceedException("This role already exceed number.");
         }
     };
 
+    Map<String, Integer> memberNumber = new HashMap<>() {
+        {
+            put("BA", 2);
+            put("QA", 1);
+            put("DEV", 3);
+        }
+    };
 
     public void add(Member newMember) {
-        Map<String, Integer> memberNumber = new HashMap<>();
-        memberNumber.put("BA", 2);
-        memberNumber.put("QA", 1);
-        memberNumber.put("DEV", 3);
-
         ArrayList<Member> currentMembers = getMembers(member -> member.getClass().equals(newMember.getClass()));
 
         memberNumberRule.consumer(currentMembers, memberNumber.get(newMember.getClass().getSimpleName()));
