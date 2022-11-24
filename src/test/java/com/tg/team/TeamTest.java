@@ -1,18 +1,19 @@
 package com.tg.team;
 
 import com.tg.team.delivery.Team;
+import com.tg.team.delivery.exception.MemberRoleExceedException;
 import com.tg.team.delivery.interfact.MemberFilter;
 import com.tg.team.delivery.member.BA;
 import com.tg.team.delivery.member.DEV;
 import com.tg.team.delivery.member.Member;
 import com.tg.team.delivery.member.QA;
-import com.tg.team.delivery.story.StoryStatus;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class TeamTest {
 
@@ -88,6 +89,30 @@ public class TeamTest {
             assertEquals(2, result.size());
             assertEquals("baOne", result.get(0).getName());
             assertEquals("baTwo", result.get(1).getName());
+        });
+
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenAddThirdBAToTeam() {
+//        given BAFilter, Team(Members)
+        Member baOne = new BA("baOne");
+        Member baTwo = new BA("baTwo");
+        Member baThr = new BA("baThr");
+        ArrayList<Member> members = new ArrayList<>();
+        members.add(baOne);
+        members.add(baTwo);
+        Team team = new Team(members);
+
+//        when add ba to team(only two BA now) , then throw exception
+        assertThrows(MemberRoleExceedException.class, () -> team.add(baThr), "This role already exceed number.");
+//
+        assertAll("shouldThrowExceptionWhenAddThirdBAToTeam", () -> {
+            ArrayList<Member> result = team.getMembers(member -> member instanceof BA);
+            assertEquals(2, result.size());
+            assertEquals("baOne", result.get(0).getName());
+            assertEquals("baTwo", result.get(1).getName());
+
         });
 
     }

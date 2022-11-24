@@ -1,6 +1,8 @@
 package com.tg.team.delivery;
 
+import com.tg.team.delivery.exception.MemberRoleExceedException;
 import com.tg.team.delivery.interfact.MemberFilter;
+import com.tg.team.delivery.interfact.MemberNumberRule;
 import com.tg.team.delivery.member.BA;
 import com.tg.team.delivery.member.DEV;
 import com.tg.team.delivery.member.Member;
@@ -8,6 +10,9 @@ import com.tg.team.delivery.member.QA;
 import com.tg.team.delivery.story.Story;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Predicate;
 
 public class Team {
     ArrayList<BA> BAs;
@@ -71,7 +76,23 @@ public class Team {
         return result;
     }
 
+    MemberNumberRule memberNumberRule = (members, numberLimit) -> {
+        if (members.size() == numberLimit) {
+            throw new MemberRoleExceedException("This role already exceed number.");
+        }
+    };
+
+
     public void add(Member newMember) {
+        Map<String, Integer> memberNumber = new HashMap<>();
+        memberNumber.put("BA", 2);
+        memberNumber.put("QA", 1);
+        memberNumber.put("DEV", 3);
+
+        ArrayList<Member> currentMembers = getMembers(member -> member.getClass().equals(newMember.getClass()));
+
+        memberNumberRule.consumer(currentMembers, memberNumber.get(newMember.getClass().getSimpleName()));
+
         members.add(newMember);
     }
 }
