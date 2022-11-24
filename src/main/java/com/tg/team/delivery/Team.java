@@ -1,7 +1,9 @@
 package com.tg.team.delivery;
 
+import com.tg.team.delivery.interfact.MemberFilter;
 import com.tg.team.delivery.member.BA;
 import com.tg.team.delivery.member.DEV;
+import com.tg.team.delivery.member.Member;
 import com.tg.team.delivery.member.QA;
 import com.tg.team.delivery.story.Story;
 
@@ -51,5 +53,21 @@ public class Team {
         this.QAs = QAs;
         this.DEVs = DEVs;
         StoryList = storyList;
+    }
+
+    ArrayList<Member> members;
+
+    public Team(ArrayList<Member> members) {
+        this.members = members;
+    }
+
+    public ArrayList<Member> getMembers(MemberFilter memberFilter) {
+        ArrayList<Member> result = new ArrayList<>();
+        members.forEach(member -> {
+            if (memberFilter.test(member)) {
+                result.add(member);
+            }
+        });
+        return result;
     }
 }
