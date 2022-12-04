@@ -68,11 +68,9 @@ public class Team {
 
     public ArrayList<Member> getMembers(MemberFilter memberFilter) {
         ArrayList<Member> result = new ArrayList<>();
-        members.forEach(member -> {
-            if (memberFilter.test(member)) {
-                result.add(member);
-            }
-        });
+        members.stream()
+                .filter(memberFilter::test)
+                .forEach(result::add);
         return result;
     }
 
