@@ -3,6 +3,8 @@ package com.tg.team;
 import com.tg.team.delivery.Team;
 import com.tg.team.delivery.exception.MemberRoleExceedException;
 import com.tg.team.delivery.interfact.MemberFilter;
+import com.tg.team.delivery.interfact.MemberNumberRule;
+import com.tg.team.delivery.interfact.MemberNumberRuleNew;
 import com.tg.team.delivery.member.BA;
 import com.tg.team.delivery.member.DEV;
 import com.tg.team.delivery.member.Member;
@@ -11,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
+import static com.tg.team.delivery.Team.TeamMemberRules;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -152,6 +155,44 @@ public class TeamTest {
 
         assertThrows(MemberRoleExceedException.class, () -> team.add(devFour), "This role already exceed number.");
         assertAll("shouldThrowExceptionWhenAddFourthDEVToTeam", () -> {
+            ArrayList<Member> result = team.getMembers(member -> member instanceof DEV);
+            assertEquals(3, result.size());
+            assertEquals("devOne", result.get(0).getName());
+        });
+    }
+
+    @Test
+    public void shouldSupportInputAddMemberRule() {
+        Member qaOne = new QA("qaOne");
+        Member baOne = new BA("baOne");
+
+        Member devOne = new DEV("devOne");
+        Member devTwo = new DEV("devTwo");
+        Member devThr = new DEV("devThr");
+        Member devFour = new DEV("devFour");
+        ArrayList<Member> members = new ArrayList<>();
+        members.add(baOne);
+        members.add(qaOne);
+        members.add(devOne);
+        members.add(devTwo);
+        members.add(devThr);
+        Team team = new Team(members);
+
+//        add the rule for
+
+        MemberNumberRuleNew devNumberRule = (newDev, cTeam) -> {
+            int devNumberLimit = 3;
+            ArrayList<Member> currentMembers = cTeam.getMembers(member -> member.getClass().equals(newDev.getClass()));
+            return currentMembers.size() >= devNumberLimit;
+        };
+
+        ArrayList<MemberNumberRuleNew> devRules = new ArrayList<>();
+        devRules.add(devNumberRule);
+        TeamMemberRules.put("DEV", devRules);
+
+
+        assertThrows(MemberRoleExceedException.class, () -> team.addMember(devFour), "This role already exceed number.");
+        assertAll("shouldSupportInputAddMemberRule", () -> {
             ArrayList<Member> result = team.getMembers(member -> member instanceof DEV);
             assertEquals(3, result.size());
             assertEquals("devOne", result.get(0).getName());
